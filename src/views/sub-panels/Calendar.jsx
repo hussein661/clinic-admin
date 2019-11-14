@@ -26,7 +26,7 @@ import { PUBLIC_URL, API_PREFIX } from "../../config";
 import {withRouter} from 'react-router-dom'
 import Card from "components/Card/Card.jsx";
 
-import { events } from "variables/Variables.jsx";
+// import { events } from "variables/Variables.jsx";
 import Axios from "axios";
 
 const localizer = BigCalendar.momentLocalizer(moment);
@@ -35,7 +35,7 @@ class Calendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: events,
+      events: [],
       alert: null,
       businesses:[]
     };
@@ -48,6 +48,8 @@ class Calendar extends Component {
   getUserEvents(busiess_id) {
     const URL = PUBLIC_URL + API_PREFIX + "admin/calendar/" + busiess_id;
     Axios.get(URL).then(r => this.setState({events:r.data.events}));
+
+
   }
 
   componentDidMount() {

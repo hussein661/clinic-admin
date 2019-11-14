@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Table, Col, Row, Grid } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
+import moment from "moment";
+import { Icon, Pagination } from 'semantic-ui-react'
+
 // import Axios from 'axios'
 class TableSMS extends Component {
 
@@ -31,10 +34,10 @@ class TableSMS extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {this.props.recordsData.map(rd=><tr key={rd.id}>
+                      {this.props.recordsData.map((rd,key)=><tr key={key}>
                         <td>{rd.destinationAddress}</td>
                         <td>{rd.message}</td>
-                        <td>{rd.DateSent}</td>
+                        <td>{moment(rd.DateSent).format('LLLL')}</td>
 
                       </tr>)}
                     </tbody>
@@ -44,6 +47,16 @@ class TableSMS extends Component {
             </Col>
           </Row>
         </Grid>
+        <Pagination
+    defaultActivePage={1}
+    ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
+    firstItem={{ content: <Icon name='angle double left' />, icon: true }}
+    lastItem={{ content: <Icon name='angle double right' />, icon: true }}
+    prevItem={{ content: <Icon name='angle left' />, icon: true }}
+    nextItem={{ content: <Icon name='angle right' />, icon: true }}
+    totalPages={this.props.totalPages}
+    onPageChange={this.props.onPageChange}
+    />
       </div>
     );
   }

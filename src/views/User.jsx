@@ -14,88 +14,91 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { Component } from "react";
-import { Grid, Row, Col } from "react-bootstrap";
+import React, { Component } from 'react';
+import { Grid, Row, Col } from 'react-bootstrap';
 
-import UserCard from "components/Card/UserCard.jsx";
-// import Button from "components/CustomButton/CustomButton.jsx";
-import { PUBLIC_URL, API_PREFIX } from "../config";
-import Axios from "axios";
+import UserCard from 'components/Card/UserCard.jsx';
+import Button from 'components/CustomButton/CustomButton.jsx';
+import { PUBLIC_URL, API_PREFIX } from '../config';
+import Axios from 'axios';
 // import moment from "moment";
 
 // import avatar from "assets/img/default-avatar.png";
-import UserPanel from "./UserPanel";
+import UserPanel from './UserPanel';
 
 class UserPage extends Component {
-  state = {
-    user:{},
-    businesses:[
-      {id:1,name:'busness n one'},{id:2,name:'busness n one'},{id:3,name:'busness n thre'},{id:4,name:'busness nfour'}
-    ]
-  };
+	state = {
+		user: {},
+		profileDetails: {},
+		businesses: [],
+	};
 
-  componentDidMount() {
-    this.getUserDetails();
-  }
+	componentDidMount() {
+		this.getUserDetails();
+	}
 
-  getUserDetails() {
-    const { user_id } = this.props.match.params;
-    const URL = PUBLIC_URL + API_PREFIX + `admin/user/${user_id}`;
-    Axios.get(URL).then(r => {
-      const {user,businesses} = r.data
-      this.setState({user,businesses})
-    })
-  }
+	getUserDetails() {
+		const { user_id } = this.props.match.params;
+		const URL = PUBLIC_URL + API_PREFIX + `admin/user/${user_id}`;
+		Axios.get(URL).then(r => {
+      const { user, businesses, profileDetails } = r.data;
+      console.log(r.data)
+			this.setState({ user, businesses, profileDetails });
+		});
+	}
 
+	render() {
+		const { name, mobile, country_code } = this.state.user;
+		const { smsCounts, usersCounts, appsCounts } = this.state.profileDetails;
+		let businessNames = [];
+		this.state.businesses.map(b => businessNames.push(b.name));
+		return (
+			<div className="main-content">
+				<Grid fluid>
+					<Row>
+						<Col md={9}>
+							<UserPanel email={this.state.user.email} businesses={this.state.businesses} />
+						</Col>
 
-  render() {
-    const {name,mobile,country_code} = this.state.user
-    
-    return (
-      <div className="main-content">
-        <Grid fluid>
-          <Row>
-            <Col md={9}>
-              <UserPanel email={this.state.user.email} businesses={this.state.businesses} />
-            </Col>
-           
-            <Col md={3}>
-              <UserCard
-                bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-                avatar={'https://www.docsapp.in/website_assets/main-page/Dr.+Shubhanshu+Gupta.jpg'}
-                name={name}
-                userName={country_code + " " + mobile}
-                description={
-                  <span>
-                  {this.state.businesses.map(bn=>
-                  <span  key={bn.id}>
-                    <br/>
-                    {bn.name}
-                  </span>
-                  )}
-                  </span>
-                }
-                socials={
-                  <div style={{display:'flex',justifyContent:'space-evenly'}}>
-                    <span>
-                      {/* <i className="fa fa-facebook-square" /> */}
-                     265 <i className="fa fa-envelope" /> 
-                    </span>
-                    <span>
-                      251 <i className="fa fa-calendar" /> 
-                    </span>
-                    <span>
-                      136 <i className="fa fa-users" /> 
-                    </span>
-                  </div>
-                }
-              />
-            </Col>
-          </Row>
-        </Grid>
-      </div>
-    );
-  }
+						<Col md={3}>
+							<UserCard
+								bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
+								avatar={'https://www.docsapp.in/website_assets/main-page/Dr.+Shubhanshu+Gupta.jpg'}
+								name={name}
+								userName={country_code + ' ' + mobile}
+								description={
+									<div style={{ textAlign: 'left' }}>
+										<span>BUSINESSES</span>
+										<div style={{ display: 'flex' }}>
+											{this.state.businesses.map(bn => (
+												<Button bsSize="sm" fill style={{cursor:'default',margin:'2px'}}>
+													{bn.name}
+												</Button>
+											))}
+										</div>
+									</div>
+								}
+								socials={
+									<div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+										<span>
+											{/* <i className="fa fa-facebook-square" /> */}
+											{smsCounts} <i className="fa fa-envelope" />
+										</span>
+										<span>
+											{appsCounts} <i className="fa fa-calendar" />
+										</span>
+										<span>
+											{usersCounts} <i className="fa fa-users" />
+										</span>
+									</div>
+								}
+							/>
+						</Col>
+					</Row>
+				</Grid>
+			</div>
+		);
+	}
 }
 
 export default UserPage;

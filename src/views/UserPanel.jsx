@@ -11,13 +11,13 @@ import Axios from 'axios'
 class UserPanel extends Component {
 
   state = {
-    recordsData:[]
+    recordsData:[],
+    pages:0
   }
 
-  smsHistoryClick = () =>{
-    let current = 1
-    Axios.post(`https://dev.montymobile.com/api/messageAnalysis/messages/user/1`, {
-    email:'uxmx123@gmail.com'
+  smsHistoryClick = current =>{
+    Axios.post(`https://dev.montymobile.com/api/messageAnalysis/messages/user/${current}`, {
+    email:this.props.email
       
     })
     .then(r => {
@@ -26,7 +26,12 @@ class UserPanel extends Component {
   })
   }
 
-  pageSubcategories = () => (
+  onPageChange= (e,data) =>{
+    this.smsHistoryClick(data.activePage)
+  }
+
+  pageSubcategories = () => {
+    return (
     <Tab.Container id="nav-with-icons" defaultActiveKey="statistics">
       <div>
         <div className="nav-container">
@@ -40,15 +45,15 @@ class UserPanel extends Component {
               <i className="fa fa-info-circle" />
               <br /> Personal details
             </NavItem>
-            <NavItem eventKey="calendar">
+            {/* <NavItem eventKey="calendar">
               <i className="fa fa-calendar"></i>
               <br /> Calendar
-            </NavItem>
+            </NavItem> */}
             <NavItem eventKey="activity">
               <i className="fa fa-tasks"></i>
               <br /> Activity
             </NavItem>
-            <NavItem eventKey="sms-history" onClick={()=>this.smsHistoryClick()}>
+            <NavItem eventKey="sms-history" onClick={()=>this.smsHistoryClick(1)}>
               <i className="fa fa-envelope"></i>
               <br /> SMS history
             </NavItem>
@@ -73,7 +78,7 @@ class UserPanel extends Component {
             <Card
               title="statistics items"
               category="More information here"
-              content={<Charts />}
+              content={<Charts email={this.props.email }/>}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="sms-history" >
@@ -81,7 +86,9 @@ class UserPanel extends Component {
             
               title="SMS History"
               category="More information here"
-              content={<TableSMS recordsData={this.state.recordsData}  />}
+              content={<TableSMS recordsData={this.state.recordsData} totalPages={this.state.pages} onPageChange={this.onPageChange}
+
+              />}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="activity">
@@ -107,9 +114,15 @@ class UserPanel extends Component {
             />
           </Tab.Pane>
         </Tab.Content>
+<div>
+
+
+    </div>
+
+
       </div>
     </Tab.Container>
-  );
+  )};
 
   render() {
     return <Col>{this.pageSubcategories()}</Col>;

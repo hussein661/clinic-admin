@@ -136,7 +136,7 @@ class Dashboard extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-wallet text-success" />}
                 statsText="Revenue"
-                statsValue="$1,345"
+                statsValue={'$' + this.state.allSmsCounts * 0.2}
                 statsIcon={<i className="fa fa-calendar-o" />}
                 statsIconText="Last day"
               />

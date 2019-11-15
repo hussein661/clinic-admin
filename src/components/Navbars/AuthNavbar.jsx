@@ -50,14 +50,14 @@ class PagesHeader extends Component {
         <Navbar.Header>
           <Navbar.Brand>
             <NavLink to={"/dashboard"} className="nav-link">
-              {this.state.width > 429
-                ? "Light Bootstrap Dashboard Pro React"
-                : "LBD PRO React"}
+              ONPOINT admin dashboard
+              {/* {this.state.width > 429
+                : "LBD PRO React"} */}
             </NavLink>
           </Navbar.Brand>
           <Navbar.Toggle onClick={this.mobileSidebarToggle} />
         </Navbar.Header>
-        <Navbar.Collapse>
+        {/* <Navbar.Collapse>
           <ul className="nav navbar-nav navbar-right">
             <li>
               <NavLink to={"/dashboard"} className="nav-link">
@@ -84,7 +84,7 @@ class PagesHeader extends Component {
               </NavLink>
             </li>
           </ul>
-        </Navbar.Collapse>
+        </Navbar.Collapse> */}
       </Navbar>
     );
   }

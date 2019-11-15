@@ -34,6 +34,9 @@ import routes from "routes.js";
 
 // style for notifications
 import { style } from "variables/Variables.jsx";
+import firebase from '../firebase/auth'
+import { setAdminLoggedIn } from "redux/actions";
+import {connect} from 'react-redux'
 
 var ps;
 
@@ -47,10 +50,24 @@ class Dashboard extends Component {
       hasImage: true,
       navbar: false,
       mini: false,
-      fixedClasses: "dropdown show-dropdown open"
+      // fixedClasses: "dropdown show-dropdown open"
+
     };
   }
+
+  checkAuth(){
+    firebase.auth().onAuthStateChanged(user=> {
+      if(!user){
+        this.props.history.push('/auth/login-page')
+      }else {
+        setAdminLoggedIn(user.email)
+      }
+    })
+  }
+
+
   componentDidMount() {
+    this.checkAuth()
     this.setState({ _notificationSystem: this.refs.notificationSystem });
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(this.refs.mainPanel);
@@ -211,4 +228,7 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+const mapDispatchToProps = dispatch =>({
+  setAdminLoggedIn:email=>dispatch(setAdminLoggedIn(email))
+})
+export default connect(null,mapDispatchToProps)(Dashboard);

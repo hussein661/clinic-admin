@@ -28,7 +28,7 @@ import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.jsx";
 import avatar from "assets/img/default-avatar.png";
 // logo for sidebar
 import logo from "logo1.svg";
-
+import {connect} from 'react-redux'
 import routes from "routes.js";
 
 var ps;
@@ -215,7 +215,7 @@ class Sidebar extends Component {
                 }}
               >
                 <span>
-                  Tania Andrew
+                  {this.props.email}
                   <b
                     className={
                       this.state.openAvatar ? "caret rotate-180" : "caret"
@@ -266,4 +266,8 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+const mapStateToProps = state =>({
+  email:state.email
+})
+
+export default connect(mapStateToProps)(Sidebar);

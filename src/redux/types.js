@@ -1,0 +1,6 @@
+export const types = {
+    SET_USER_TO_TRACK:'SET_USER_TO_TRACK',
+    SET_ADMIN_LOGGED_IN:'SET_ADMIN_LOGGED_IN'
+
+
+}

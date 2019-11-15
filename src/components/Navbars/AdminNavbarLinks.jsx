@@ -25,8 +25,15 @@ import {
   FormControl,
   InputGroup
 } from "react-bootstrap";
+import firebase from '../../firebase/auth'
 
 class HeaderLinks extends Component {
+
+
+  signOut = () =>{
+    firebase.auth().signOut()
+  }
+
   render() {
     return (
       <div>
@@ -116,7 +123,7 @@ class HeaderLinks extends Component {
               <i className="pe-7s-lock" /> Lock Screen
             </MenuItem>
             <MenuItem eventKey={4.5}>
-              <div className="text-danger">
+              <div className="text-danger" onClick={this.signOut}>
                 <i className="pe-7s-close-circle" /> Log out
               </div>
             </MenuItem>

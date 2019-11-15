@@ -22,13 +22,14 @@ import Button from 'components/CustomButton/CustomButton.jsx';
 import { PUBLIC_URL, API_PREFIX } from '../config';
 import Axios from 'axios';
 // import moment from "moment";
+import {connect} from 'react-redux'
+import {set_user_to_track} from '../redux/actions'
 
 // import avatar from "assets/img/default-avatar.png";
 import UserPanel from './UserPanel';
 
 class UserPage extends Component {
 	state = {
-		user: {},
 		profileDetails: {},
 		businesses: [],
 	};
@@ -41,15 +42,14 @@ class UserPage extends Component {
 		const { user_id } = this.props.match.params;
 		const URL = PUBLIC_URL + API_PREFIX + `admin/user/${user_id}`;
 		Axios.get(URL).then(r => {
-      const { user, businesses, profileDetails } = r.data;
-      console.log(r.data)
-			this.setState({ user, businesses, profileDetails });
+			const userDetails = r.data;
+			this.props.set_user_to_track(userDetails)
 		});
 	}
-
+	
 	render() {
-		const { name, mobile, country_code } = this.state.user;
-		const { smsCounts, usersCounts, appsCounts } = this.state.profileDetails;
+		const { name, mobile, country_code } = this.props.userDetails.user;
+		const { smsCounts, usersCounts, appsCounts } = this.props.userDetails.profileDetails;
 		let businessNames = [];
 		this.state.businesses.map(b => businessNames.push(b.name));
 		return (
@@ -57,7 +57,7 @@ class UserPage extends Component {
 				<Grid fluid>
 					<Row>
 						<Col md={9}>
-							<UserPanel email={this.state.user.email} businesses={this.state.businesses} />
+							<UserPanel/>
 						</Col>
 
 						<Col md={3}>
@@ -67,16 +67,16 @@ class UserPage extends Component {
 								name={name}
 								userName={country_code + ' ' + mobile}
 								description={
-									<div style={{ textAlign: 'left' }}>
-										<span>BUSINESSES</span>
-										<div style={{ display: 'flex' }}>
+									<span style={{ textAlign: 'left' }}>
+										BUSINSSES
+										<span href='#' style={{ display: 'flex' }}>
 											{this.state.businesses.map(bn => (
-												<Button bsSize="sm" fill style={{cursor:'default',margin:'2px'}}>
+												<Button key={bn.name} bsSize="sm" fill style={{cursor:'default',margin:'2px'}}>
 													{bn.name}
 												</Button>
 											))}
-										</div>
-									</div>
+										</span>
+									</span>
 								}
 								socials={
 									<div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
@@ -101,4 +101,12 @@ class UserPage extends Component {
 	}
 }
 
-export default UserPage;
+const mapDispatchToProps = dispatch => ({
+	set_user_to_track:userDetails=> dispatch(set_user_to_track(userDetails))
+})
+
+const mapStateToProps = state =>({
+	userDetails:state.userDetails
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(UserPage);

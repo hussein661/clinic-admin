@@ -32,7 +32,7 @@ class Footer extends Component {
           }
         >
           <nav className="pull-left">
-            <ul>
+            {/* <ul>
               <li>
                 <a href="#pablo">Home</a>
               </li>
@@ -45,12 +45,12 @@ class Footer extends Component {
               <li>
                 <a href="#pablo">Blog</a>
               </li>
-            </ul>
+            </ul> */}
           </nav>
           <p className="copyright pull-right">
             &copy; {1900 + new Date().getYear()}{" "}
-            <a href="https://www.creative-tim.com?ref=lbdpr-footer" target="_blank">Creative Tim</a>, made with{" "}
-            <i className="fa fa-heart heart" /> for a better web
+            <a href="onpoint.montymobile.com" target="_blank">Visit the ONPOINT application</a>, made with{" "}
+            <i className="fa fa-heart heart" /> by MONTY MOBILE
           </p>
         </div>
       </footer>

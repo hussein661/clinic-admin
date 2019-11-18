@@ -216,14 +216,14 @@ class Sidebar extends Component {
               >
                 <span>
                   {this.props.email}
-                  <b
+                  {/* <b
                     className={
                       this.state.openAvatar ? "caret rotate-180" : "caret"
                     }
-                  />
+                  /> */}
                 </span>
               </a>
-              <Collapse in={this.state.openAvatar}>
+              {/* <Collapse in={this.state.openAvatar}>
                 <ul className="nav">
                   <li>
                     <a href="#pablo" onClick={e => e.preventDefault()}>
@@ -244,7 +244,7 @@ class Sidebar extends Component {
                     </a>
                   </li>
                 </ul>
-              </Collapse>
+              </Collapse> */}
             </div>
           </div>
           <ul className="nav">

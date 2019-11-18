@@ -60,7 +60,7 @@ class Dashboard extends Component {
       if(!user){
         this.props.history.push('/auth/login-page')
       }else {
-        setAdminLoggedIn(user.email)
+        this.props.setAdminLoggedIn(user.email)
       }
     })
   }

@@ -90,13 +90,13 @@ class Users extends Component {
                             const {active,id} = props.original
                           return (
                             <div>
-                              <Button round style={{margin:'1px'}} bsStyle="primary xs" fill onClick={()=>this.props.history.push(`/admin/users/${id}`)}>
+                              <Button round style={{margin:'1px'}} bsStyle="primary" fill onClick={()=>this.props.history.push(`/admin/users/${id}`)}>
                                 Explore
                               </Button>
                               {/* <Button style={{margin:'1px'}} bsStyle={`${!active ? 'danger' : 'success'}`}>
                               {`${!active ? 'Disabled' : 'Enabled'}`}
                               </Button> */}
-                              <Switch onText="ON" offText="OFF" defaultValue={active} />
+                              <Switch onText="ON" offText="OFF" defaultValue={active ? true : false} />
                             </div>
                           );
                         }

@@ -30,6 +30,9 @@ class UserPanel extends Component {
 	};
 
 	pageSubcategories = () => {
+		const lastSeen = moment(this.props.updated_at)
+		const today = moment()
+		const diff = today.diff(lastSeen, 'hours')
 		return (
 			<Tab.Container id="nav-with-icons" defaultActiveKey="statistics">
 				<div>
@@ -61,9 +64,9 @@ class UserPanel extends Component {
 					<Tab.Content>
 						<Tab.Pane eventKey="personal-info">
 							<Card
-								title="personal-info about product"
+								title="personal-info"
 								category="More information here"
-								content={<PersonalDetails />}
+								content={<PersonalDetails  userDetails={this.props.userDetails} />}
 							/>
 						</Tab.Pane>
 						<Tab.Pane eventKey="calendar">
@@ -87,18 +90,34 @@ class UserPanel extends Component {
 						</Tab.Pane>
 						<Tab.Pane eventKey="activity">
 							<Card
-								title="activityss center"
-								category="More information here"
+								title=""
+								category=""
 								content={
 									<div>
 										<div>
-											<h2>Activity Feed</h2>
+											<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+												<h2>Activity Log</h2>
+												<div>
+													<h5>LAST SEEN <i className="fa fa-circle" style={{color: diff > 2 ? 'red' : 'green'}}></i></h5>
+													<p>{lastSeen.format('LL hh:mm a')}</p>
+												</div>
+											</div>
 											<div className="activity-feed">
 												{this.props.userActivity.map(al => (
 													<div key={al.id} className="feed-item">
 														<div className="date">{moment(al.created_at).format('LL')}</div>
 														<div className="text">
-														<b>{this.props.name}</b> has been <span  style={{color:al.activity === 'logged in' ? 'green' : 'red'}}> {al.activity} </span> at {moment(al.created_at).format("hh:mm a")}
+															<b>{this.props.name}</b> has been{' '}
+															<span
+																style={{
+																	color:
+																		al.activity === 'logged in' ? 'green' : 'red',
+																}}
+															>
+																{' '}
+																{al.activity}{' '}
+															</span>{' '}
+															at {moment(al.created_at).format('hh:mm a')}
 															{/* <a href="single-need.php">“Volunteer opportunity”</a> */}
 														</div>
 													</div>
@@ -122,9 +141,10 @@ class UserPanel extends Component {
 }
 
 const mapStateToProps = state => ({
-  email: state.userDetails.user.email,
+	userDetails:state.userDetails,
+	email: state.userDetails.user.email,
 	name: state.userDetails.user.name,
-  
+	updated_at: state.userDetails.user.updated_at,
 	userActivity: state.userDetails.userActivity,
 });
 export default connect(mapStateToProps)(UserPanel);
